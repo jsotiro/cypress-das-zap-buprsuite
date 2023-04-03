@@ -157,9 +157,9 @@ You can also use the browser to
    To shutdown the running deamon use
    ```bash
     npm run zap-local:shutdown
-```
+    ```
 
-   > Shutting down ZAP is optional. The scripts will get the correct scan id and you can have a long running ZAP daemon but the report is cumulative. If you want to have clean report,  you should shutdown and start ZAP again for every run
+   *Shutting down ZAP is optional. The scripts will get the correct scan id and you can have a long running ZAP daemon but the report is cumulative. If you want to have clean report, you should shutdown and start ZAP again for every run*.
 
 
 
