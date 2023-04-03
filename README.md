@@ -1,6 +1,37 @@
 # DevSecOps: Automated Guided DAST with Cypress,  OWASP ZAP,  Burp Suite Pro
 
- 
+## td;lr
+
+A PoC that shows how to drive DAST scans with Cypress tests againt the OWASP Juice Shop app. 
+
+To use the Docker version install Docker and the command line in the project directory 
+
+```bash
+export HTTP_PROXY=http://localhost:8080
+export HTTPS_PROXY=http://localhost:8080
+npm run  zap-docker:start
+npm run cypress:tests
+npm run zap:a active-scan
+npm run zap:scan-report
+npm run zap-docker:shutdown
+```
+
+
+To use a locally installed OWASP ZAP, create a symlink to the zap.sh somewhere in the path and form  the command line in the project directory 
+
+```bash
+export HTTP_PROXY=http://localhost:8080
+export HTTPS_PROXY=http://localhost:8080
+npm run  zap-local:start
+npm run cypress:tests
+npm run zap:a active-scan
+npm run zap:z-report
+npm run zap-local:shutdown
+```
+
+There many other combinations, all explained below
+
+## Overview
 
 DAST (Dynamic Application Security Test) tools use spidering/crawling to discover resources and then actively scan them for vulnerabilities. This approach is not really effective for SPAs  (single page applications) with heavy use of REST APIs that have no OpenAPI specification endpoints to crawl. The approach can also be problematic if you want to avoid large scale crawling and focus on the applications journey and business logic. 
 
@@ -121,35 +152,12 @@ You can also use the browser to
 
    <img align="left" src="docs/images/scan-report.png" alt="scan-report" style="zoom: 25%;" /> 
 
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
-   
-
    ##### Shutdown ZAP Deamon
 
-   To shutdown the running ze
+   To shutdown the running deamon use
+   ```bash
+    npm run zap-local:shutdown
+```
 
    > Shutting down ZAP is optional. The scripts will get the correct scan id and you can have a long running ZAP daemon but the report is cumulative. If you want to have clean report,  you should shutdown and start ZAP again for every run
 
