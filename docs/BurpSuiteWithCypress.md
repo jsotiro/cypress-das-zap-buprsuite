@@ -4,11 +4,11 @@ Run Burp Suite Pro and make sure the  the proxy is configured to the port  to  8
 
 Start Live Task, and configure it use Audit (active scanning) and to cover Proxy traffic
 
-<img align="left" src="/home/yanni/Documents/src/dast-cypress-zap/docs/images/live-scan-main-config.png" style="zoom: 33%;" />
+<img align="left" src="../docs/images/live-scan-main-config.png" style="zoom: 33%;" />
 
 Select the appropriate scan configuration e.g., select  Audit coverage - maximum from the configuration library.
 
-<img src="/home/yanni/Documents/src/dast-cypress-zap/docs/images/live-task-scan-config.png" align="left" alt="live-task-scan-config" style="zoom: 40%;" />
+<img src="../docs/images/live-task-scan-config.png" align="left" alt="live-task-scan-config" style="zoom: 40%;" />
 
 
 
@@ -27,7 +27,7 @@ or in headless mode`npm run cypress:tests`
 
 Once the tests are there, check the results in the Live Task Dashboard and click Show Details to see all the findings.  
 
-<img src="/home/yanni/Documents/src/dast-cypress-zap/docs/images/live-task-results.png" align="left" style="zoom:35%;" />
+<img src="../docs/images/live-task-results.png" align="left" style="zoom:35%;" />
 
 > You can do this with the free Burp Suite Community Edition, but the Live Task only allows Passive Crawling which is of limited value. 
 >

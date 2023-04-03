@@ -32,18 +32,18 @@ Cypress can be used to drive Live Tasks with active scans ('audit') in Burp Suit
 
 ### OWASP ZAP
 
-You can use OWASP ZAP in headless mode, as a daemon). This can be done either using a local install of ZAP or the official docker file. The PoC provides  npm scripts for both.  Once the traffic is proxied we can start an active scan on the proxied traffic with the ZAP API, monitor its progress, retrieve the report , and optionally terminate the ZAP daemon.
+You can use OWASP ZAP in headless mode, as a daemon). This can be done either using a local install of ZAP or the official docker image. The PoC provides  npm scripts for both.  Once the traffic is proxied we can start an active scan on the proxied traffic with the ZAP API, monitor its progress, retrieve the report , and optionally terminate the ZAP daemon.
 
-#### Using OWASP ZAP locally 
+#### Using OWASP ZAP installed locally 
 
-1. Setup the Proxy ports environment variables
+1. **Setup the Proxy ports environment variables**
 
 ```bash
 export HTTP_PROXY=http://localhost:8080
 export HTTPS_PROXY=http://localhost:8080
 ```
 
-2. Start ZAP locally using
+2. **Start ZAP locally using**
 
 ```bash
 npm run zap-local:start 
@@ -61,54 +61,142 @@ npm run zap-local:start-bg
 
 In both cases you can check whether the daemon is running successful but using https://localhost:8080 in the browser.
 
-3. Run Cypress tests to proxy all traffic through ZAP
+<img align="left" src="docs/images/ZAP-browser-ui.png" style="zoom: 25%;" />
+
+3. **Run Cypress tests to proxy all traffic through ZAP**
 
 The PoC provides scripts to do in a couple of different ways:
 
-npm run cypress:tests-show
-
-or 
-
-npm run cypress:tests 
-
-which runs 
-
-
-
-
-
-RuThese tools can be combined in an interesting way. **Cypress** can proxy all of its traffic generated during test execution through **OWASP ZAP**. ZAP will roughly learn which sites the web app under test has. It gathers security alerts found in the traffic. Afterwards ZAP can run active scans against the application in addition. These try some active attacks against the site, such as SQL injections or Cross-Site-Scripting attempts. OWASP ZAP afterwards provides reports including all found vulnerabilities.
-
-### 
-
-The famous JS has a fair amount of serious vulnerabilities. Therefor it's perfect for demonstrating what kind of vulnerabilities and smells can be discovered with automated click tests and active scanning.
-
-## Running it
-
-### Locally against remote Juice Shop
-
-Juice Shop is up already on: https://juice-shop.herokuapp.com
-
-Start OWASP ZAP in headless mode using Docker, as we just need its HTTP API, on `http://localhost:8080`:
+run the tests and show the cypress UI. This is useful if you are running this on a desktop command prompt.
 
 ```bash
-docker run -u zap -p 8080:8080 jverhoelen/owasp-zap-with-entrypoint
-# this image is a variant of https://github.com/zaproxy/zaproxy/blob/develop/docker/Dockerfile-bare
-# it has been built from file https://github.com/jverhoelen/zaproxy/blob/develop/docker/Dockerfile-bare-entrypoint
-# it just runs ZAP as Docker entrypoint using its bash script wrapper zap.sh with some default arguments so it binds to 0.0.0.0:8080 as daemon without API key
+npm run cypress:tests-show
 ```
 
-Configure ZAP as proxy for Cypress and run tests:
+or run the tests but without showing the browser and cypress UI. This is the recommended way for CI integratons
 
 ```bash
-nvm use
-npm i
+npm run cypress:tests 
+```
 
+There are only a  few tests  which are enough to demonstrate the approach. Once the tests complete you will see a screen like this
+
+<img align="left" src="docs/images/cypress-tests-completed.png" style="zoom:33%;" />
+
+
+
+4. **Initiate a ZAP Scan**
+
+Once the tests are completed, you can initiate a scan with 
+
+ 
+
+```
+npm run zap:active-scan
+```
+
+This will start the scan and wait until it is completed, displaying the scan id and progress every 10 seconds.  
+
+
+
+<img align="left" src="docs/images/running-active-scan.png" style="zoom:50%;" />
+
+You can also use the browser to
+
+- see  all running scans and their status in 
+  - http://localhost:8080/JSON/ascan/view/scans/?
+
+- terminate a scan
+  - http://localhost:8080/JSON/ascan/action/stop/?scanId=<scan id> 
+
+1. ##### **Retrieve the report**
+
+   Once the scan is completed you can download the report with 
+
+   ```bash
+   npm run zap:scan-reports
+   ```
+
+    The main report is in HTML 
+
+   <img align="left" src="docs/images/scan-report.png" alt="scan-report" style="zoom: 25%;" /> 
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   ##### Shutdown ZAP Deamon
+
+   To shutdown the running ze
+
+   > Shutting down ZAP is optional. The scripts will get the correct scan id and you can have a long running ZAP daemon but the report is cumulative. If you want to have clean report,  you should shutdown and start ZAP again for every run
+
+
+
+Once the environment variables are set, you can run all scripts in one go with
+
+```bash
+npm run dast:all 
+```
+
+#### Using  Dockerised OWASP ZAP
+
+The PoC also allows you to use the OWASP ZAP Docker container using the official stable image. 
+
+You still need to set the environment variables
+
+```bash
 export HTTP_PROXY=http://localhost:8080
 export HTTPS_PROXY=http://localhost:8080
-
-    npm run zap:start
-    npm run zap:zap-active-scan
-    # or "npm run remote:all" for both after another
 ```
 
+ The workflow is like before but with different start and shut down scripts.  
+
+```bash
+npm run  zap-docker:start
+npm run cypress:tests
+npm run zap:a active-scan
+npm run zap:scan-report
+npm run zap-docker:shutdown 
+
+```
+
+ 
+
+You can also run all of the above in one step with
+
+```bash
+npm run dast-docker:all
+```
+
+
+
+### Burp Suite Pro
+
+Burp Suite Pro has a REST API embedded that can be used to run scans 
+
+However, the API will run a standard scan with a seed URL and will not benefit from proxying the URLs from Cypress
+
+One approach would be to pass all the URLs as part of the scan definition but that will require to create a list of URLs from the Cypress run effectively writing an intermediate spider. 
