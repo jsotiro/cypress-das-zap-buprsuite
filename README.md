@@ -2,7 +2,7 @@
 
 ## td;lr
 
-A PoC showing how to drive DAST scans with [Cypress](https://www.cypress.io) tests with the OWASP ZAP](https://www.zaproxy.org/) againt the  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/). We also show how to use it with Burp Suite Pro.
+A PoC showing how to drive DAST scans with [Cypress](https://www.cypress.io) tests with the [OWASP ZAP](https://www.zaproxy.org/) againt the  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/). We also show how to use it with Burp Suite Pro.
 
 For OWASP ZAP, To use the Docker version install Docker and the command line in the project directory 
 
