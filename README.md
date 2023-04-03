@@ -29,7 +29,7 @@ npm run zap:z-report
 npm run zap-local:shutdown
 ```
 
-There many other combinations, all explained below
+There are many other scombinations, all explained below
 
 ## Overview
 
