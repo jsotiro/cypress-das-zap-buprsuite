@@ -45,7 +45,7 @@ We use  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/),  an inten
 
 
 
-The project is built combining the best elements from two other previous efforts found in  https://github.com/jverhoelen/security-tests-with-owasp-zap-cypress and https://github.com/el-davo/cypress-zap
+The project has started from looking at two other previous efforts: https://github.com/jverhoelen/security-tests-with-owasp-zap-cypress and https://github.com/el-davo/cypress-zap
 
 ## Automated DAST with Cypress and Desktop tools
 
