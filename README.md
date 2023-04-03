@@ -2,9 +2,9 @@
 
 ## td;lr
 
-A PoC that shows how to drive DAST scans with Cypress tests againt the OWASP Juice Shop app. 
+A PoC showing how to drive DAST scans with [Cypress](https://www.cypress.io) tests with the OWASP ZAP](https://www.zaproxy.org/) againt the  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/). We also show how to use it with Burp Suite Pro.
 
-To use the Docker version install Docker and the command line in the project directory 
+For OWASP ZAP, To use the Docker version install Docker and the command line in the project directory 
 
 ```bash
 export HTTP_PROXY=http://localhost:8080
@@ -39,9 +39,9 @@ This is where leveraging existing web automated test scripts can help for effect
 
 This project is a proof of concept of leveraging web automated tests to automate DAST scans. 
 
-In this PoC we will use [Cypress](https://www.cypress.io)  a very popular UI/E2E testing framework for web applications to guide [the OWASP ZAP](https://www.zaproxy.org/)  DAST tool.  The approach is applicable to any other web testing framework with  proxy configuration.
+In this PoC we  use [Cypress](https://www.cypress.io)  a very popular UI/E2E testing framework for web applications to guide [the OWASP ZAP](https://www.zaproxy.org/)  DAST tool.  The approach is applicable to any other web testing framework with  proxy configuration.
 
-We use  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/) ,  an intentionally vulnerable web application as our example application.
+We use  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/),  an intentionally vulnerable web application as our example application.
 
 
 
