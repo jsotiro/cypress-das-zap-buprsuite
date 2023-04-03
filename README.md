@@ -99,7 +99,7 @@ This will start the scan and wait until it is completed, displaying the scan id 
 
 
 
-<img align="left" src="docs/images/running-active-scan.png" style="zoom:50%;" />
+<img align="left" src="docs/images/running-active-scan.png" style="zoom: 33%;" />
 
 You can also use the browser to
 
