@@ -4,7 +4,7 @@
 
 A PoC showing how to drive DAST scans with [Cypress](https://www.cypress.io) tests with the [OWASP ZAP](https://www.zaproxy.org/) againt the  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/). We also show how to use it with Burp Suite Pro.
 
-For OWASP ZAP, To use the Docker version install Docker. You also need to do [this](#custom-cerificates) _if your organisation uses self-signed certificates in your corporate proxy_
+For OWASP ZAP, To use the Docker version install Docker. You also need to do [this](#handing-corporate-self-signed-certifcates) _if your organisation uses self-signed certificates in your corporate proxy_
 
 From  the command line in the project directory 
 
@@ -31,7 +31,7 @@ npm run zap:z-report
 npm run zap-local:shutdown
 ```
 
-There are many other scombinations, all explained below. Please note that this is a PoC and simiplicity is chosen over some [OWASP ZAP remote security considerations](#zap-docker-security-considerations)
+There are many other scombinations, all explained below. Please note that this is a PoC and simiplicity is chosen over some [OWASP ZAP remote security considerations](#dockerised-owasp-security-considerations)
 
 ## Overview
 
@@ -175,7 +175,7 @@ npm run dast:all
 
 The PoC also allows you to use the OWASP ZAP Docker container using the official stable image.
 
-##### [Handing Corporate Self-Signed Certifcates](#custom-cerificates)
+##### Handing Corporate Self-Signed Certifcates
 
 Some organisations use their own self-signed certificates for deep packet inspection in their proxies. This will stop your standard dockerised from working and throw certificate exceptions. The workaround for this is to build a custom image on top of the standard one copying and installing the certificates. To do that 
 
@@ -210,7 +210,7 @@ npm run dast-docker:all
 
 
 
-#### [Dockerised OWASP Security Considerations](#zap-docker-security-considerations))
+#### Dockerised OWASP Security Considerations
 
 This is a PoC and for simplicity we launch the docker container image allowing API calls from any host (`-config api.addrs.addr.name=.*`) and without an API key (`-config api.disablekey=true`).  These settings are in `./bin/start-zap-container.sh`
 
