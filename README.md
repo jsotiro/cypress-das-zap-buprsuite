@@ -14,7 +14,7 @@ export HTTPS_PROXY=http://localhost:8080
 npm run  zap-docker:start
 npm run cypress:tests
 npm run zap:active-scan
-npm run zap:scan-report
+npm run zap:scan-reports
 npm run zap-docker:shutdown
 ```
 
@@ -27,7 +27,7 @@ export HTTPS_PROXY=http://localhost:8080
 npm run  zap-local:start
 npm run cypress:tests
 npm run zap:active-scan
-npm run zap:z-report
+npm run zap:z-reports
 npm run zap-local:shutdown
 ```
 
@@ -196,8 +196,8 @@ export HTTPS_PROXY=http://localhost:8080
 ```bash
 npm run  zap-docker:start
 npm run cypress:tests
-npm run zap:a active-scan
-npm run zap:scan-report
+npm run zap:active-scan
+npm run zap:scan-reports
 npm run zap-docker:shutdown 
 
 ```
