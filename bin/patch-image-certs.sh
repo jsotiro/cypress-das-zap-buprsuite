@@ -1,10 +1,11 @@
 #!/bin/bash
 DOCKER_IMAGE="owasp-zap/certs-patched"
-if [ -d "$DIRECTORY" ]; then
-    echo "certs directory found."
+CERTS_DIR="./certs"
+if [ ! -d "${CERTS_DIR}" ]; then
+    echo "No certs directory found."
     exit 1
 fi
-if [ -z "$(ls -A ./certs)" ]; then 
+if [ -z "$(ls -A $CERTS_DIR)" ]; then 
     echo "No certs found in certs directory."
     exit 1
 fi

@@ -6,7 +6,7 @@ echo "Started active scan - id.. $scanId"
 attempt_counter=0
 max_attempts=900
 statusResult=""
-
+echo -n "Scan progress: "
 while
   if [ ${attempt_counter} -eq ${max_attempts} ];then
     echo "Max attempts reached, exiting"
@@ -14,16 +14,15 @@ while
   fi
 
 statusResult=$(curl -s 'http://localhost:8080/JSON/ascan/view/status/?scanId=$scanId'|jq '.status')
-echo "Scan progress $statusResult %" 
+progress=$(sed -e 's/^"//' -e 's/"$//' <<<"$statusResult")
+echo -n " ...$progress%" 
 
   attempt_counter=$(($attempt_counter+1))
-  sleep 10
-  if [[ "$statusResult" ==  "100" ]] ; then
-        echo "Scan $scanId completed"
-
+  if [[ "${progress}" ==  "100" ]] ; then
+        echo -e " \nScan $scanId completed"
         exit 0
    fi
-
+  sleep 10
 do true; done
 
 echo "Finished"
