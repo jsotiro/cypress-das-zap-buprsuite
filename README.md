@@ -27,7 +27,7 @@ export HTTPS_PROXY=http://localhost:8080
 npm run  zap-local:start
 npm run cypress:tests
 npm run zap:active-scan
-npm run zap:z-reports
+npm run zap:scan-reports
 npm run zap-local:shutdown
 ```
 
