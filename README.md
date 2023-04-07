@@ -4,7 +4,9 @@
 
 A PoC showing how to drive DAST scans with [Cypress](https://www.cypress.io) tests with the [OWASP ZAP](https://www.zaproxy.org/) againt the  [OWASP Juice Shop](https://owasp.org/www-project-juice-shop/). We also show how to use it with Burp Suite Pro.
 
-For OWASP ZAP, To use the Docker version install Docker and the command line in the project directory 
+For OWASP ZAP, To use the Docker version install Docker. You also need to do [this](##### Handing Corporate Self-Signed Certifcates) if your organisation uses self-signed certificates in your corporate proxy
+
+From  the command line in the project directory 
 
 ```bash
 export HTTP_PROXY=http://localhost:8080
@@ -29,7 +31,7 @@ npm run zap:z-report
 npm run zap-local:shutdown
 ```
 
-There are many other scombinations, all explained below
+There are many other scombinations, all explained below. Please note that this is a PoC and simiplicity is chosen over some [OWASP ZAP remote security considerations](####Dockerised OWASP Security Considerations)
 
 ## Overview
 
@@ -157,7 +159,7 @@ You can also use the browser to
    To shutdown the running deamon use
    ```bash
     npm run zap-local:shutdown
-    ```
+   ```
 
    *Shutting down ZAP is optional. The scripts will get the correct scan id and you can have a long running ZAP daemon but the report is cumulative. If you want to have clean report, you should shutdown and start ZAP again for every run*.
 
@@ -171,9 +173,18 @@ npm run dast:all
 
 #### Using  Dockerised OWASP ZAP
 
-The PoC also allows you to use the OWASP ZAP Docker container using the official stable image. 
+The PoC also allows you to use the OWASP ZAP Docker container using the official stable image.
 
-You still need to set the environment variables
+##### Handing Corporate Self-Signed Certifcates
+
+Some organisations use their own self-signed certificates for deep packet inspection in their proxies. This will stop your standard dockerised from working and throw certificate exceptions. The workaround for this is to build a custom image on top of the standard one copying and installing the certificates. To do that 
+
+1. copy your custom **public** certificates under `<project dir>/certs`
+2. run `npm run zap-docker:patch-certs` 
+
+##### Using Dockerised OWASP ZAP
+
+The launch script (`npm run zap-docker:start` and the underlying `./bin/start-zap-container.sh`) will detect whether you use a patched image and launch it, otherwise it will launch the standard one. Regardless of the image you use, you still need to set the environment variables
 
 ```bash
 export HTTP_PROXY=http://localhost:8080
@@ -191,13 +202,21 @@ npm run zap-docker:shutdown
 
 ```
 
- 
-
-You can also run all of the above in one step with
+ You can also run all of the above in one step with
 
 ```bash
 npm run dast-docker:all
 ```
+
+
+
+#### Dockerised OWASP Security Considerations
+
+This is a PoC and for simplicity we launch the docker container image allowing API calls from any host (`-config api.addrs.addr.name=.*`) and without an API key (`-config api.disablekey=true`).  These settings are in `./bin/start-zap-container.sh`
+
+For real world  use you should be using an api key with and restricting the hosts in that can call the API endpoint to your dev ips and/or the CI endpoint. 
+
+For Linux hosts you can simplify lcoal access by using host networking  `--network=host` which does not then require -config api.addrs.addr.name values and restricts to local. However, this does not work in Mac or Windows and has its own limitations when using more than one container instance. For more see https://docs.docker.com/network/host/
 
 
 

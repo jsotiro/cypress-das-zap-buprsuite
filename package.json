@@ -4,15 +4,18 @@
     "description": "A Proof of concept demonstrating CI-level DAST using Cypress web automation and OWASP ZAP",
     "main": "index.js",
     "scripts": {
+  
         "zap-local:start": "npm run clean && zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.regex=true -config api.disablekey=true -newsession $INIT_CWD/zap-results/session",
         "zap-local:start-bg": "npm run clean && zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.regex=true -config api.disablekey=true -newsession $INIT_CWD/zap-results/session &",
-        "zap-docker:start": "npm run clean && docker run -p 8080:8080 -d  --network=host -i owasp/zap2docker-stable zap.sh -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.regex=true -config api.disablekey=true",        
+        "zap-docker:patch-certs" : "./bin/patch-image-certs.sh",
+        "zap-docker:start": "npm run clean && ./bin/start-zap-container.sh",        
+        "zap:test":"./bin/start_zap_container.sh $npm_config_patch_certs ",
         "cypress:tests-show": "cypress run --config-file cypress.json --browser chrome",
         "cypress:tests": "cypress run --config-file cypress.json --browser chrome --headless",
-        "zap:active-scan": "./bin/active-scan.sh",
+        "zap:active-scan": "./bin/active-scan.sh ",
         "zap:scan-reports":"./bin/zap-reports.sh $INIT_CWD/zap-results",
         "zap-local:shutdown": "curl http://localhost:8080/JSON/core/action/shutdown/?zapapiformat=JSON&formMethod=GET",
-        "zap-docker:shutdown": "docker stop $(docker ps | grep owasp|cut -d ' ' -f1)",
+        "zap-docker:shutdown": "docker stop $(docker ps | grep owasp|cut -d ' ' -f1) && docker rm $(docker ps -a | grep owasp|cut -d ' ' -f1)",
         "dast:all": "npm run zap-local:start-bg && npm run cypress:tests-ci && npm run remote:zap-active-scan:zap:scan-reports && npm run zap-local:shutdown",
         "dast-docker:all": "npm run zap-docker:start && npm run cypress:tests-ci && npm run remote:zap-active-scan:zap:scan-reports && npm run zap-docker:shutdown",
         "clean": "rimraf zap-results"
@@ -21,6 +24,6 @@
     "license": "MIT",
     "devDependencies": {
         "rimraf": "^3.0.2",
-        "cypress": "^5.3.0"
+        "cypress": "^12.9.0"
     }
 }

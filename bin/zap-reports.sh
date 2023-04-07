@@ -1,3 +1,4 @@
+#!/bin/bash
 echo $1
 filename="$1/zap_report.html"
 echo $filename
